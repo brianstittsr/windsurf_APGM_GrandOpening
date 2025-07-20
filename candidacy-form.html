@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eyebrow Enhancement Candidacy Assessment - A Pretty Girl Matter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #AD6269;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .progress-container {
+            margin-bottom: 40px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #AD6269 0%, #f75eb5 100%);
+            width: 16.67%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-weight: 600;
+            color: #AD6269;
+            font-size: 0.9rem;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .step-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #AD6269;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .step-description {
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .question-group {
+            margin-bottom: 25px;
+        }
+
+        .question {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .checkbox-group {
+            display: grid;
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            background: #f0f0f0;
+        }
+
+        .checkbox-item.checked {
+            background: #fff5f6;
+            border-color: #AD6269;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: #AD6269;
+        }
+
+        .radio-group {
+            display: grid;
+            gap: 12px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .radio-item:hover {
+            background: #f0f0f0;
+        }
+
+        .radio-item.selected {
+            background: #fff5f6;
+            border-color: #AD6269;
+        }
+
+        .radio-item input[type="radio"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: #AD6269;
+        }
+
+        .warning-text {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #856404;
+        }
+
+        .info-text {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #004085;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #AD6269 0%, #f75eb5 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(173, 98, 105, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 2px solid #e9ecef;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .results {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .result-good {
+            color: #28a745;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .result-caution {
+            color: #856404;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .result-not-suitable {
+            color: #721c24;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .contact-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .form-card {
+                padding: 25px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="logo.png" alt="A Pretty Girl Matter" class="logo">
+            <h1>Candidacy Assessment</h1>
+            <p>Let's determine if eyebrow enhancement services are right for you. This quick assessment will help us provide the best recommendations for your needs.</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Step 1 of 6</div>
+        </div>
+
+        <div class="form-card">
+            <form id="candidacyForm">
+                <!-- Step 1: Age and Basic Health -->
+                <div class="step active" data-step="1">
+                    <h2 class="step-title">Basic Information</h2>
+                    <p class="step-description">Let's start with some basic information about your current situation.</p>
+                    
+                    <div class="question-group">
+                        <div class="question">Please check any that apply to you:</div>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="basic_health" value="under_18">
+                                <span>I am under 18 years old</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="basic_health" value="pregnant">
+                                <span>I am currently pregnant</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="basic_health" value="breastfeeding">
+                                <span>I am currently breastfeeding</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="basic_health" value="poor_health">
+                                <span>I have general poor health or slow healing</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Medical Treatments -->
+                <div class="step" data-step="2">
+                    <h2 class="step-title">Current Medical Treatments</h2>
+                    <p class="step-description">Information about current medications and treatments is important for your safety.</p>
+                    
+                    <div class="question-group">
+                        <div class="question">Are you currently:</div>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="medical_treatments" value="chemotherapy">
+                                <span>Undergoing chemotherapy</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="medical_treatments" value="accutane">
+                                <span>Using Accutane (isotretinoin)</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="medical_treatments" value="blood_thinners">
+                                <span>Taking blood thinning medications</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <div class="question">Do you have uncontrolled diabetes?</div>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="diabetes" value="yes">
+                                <span>Yes</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="diabetes" value="no">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Medical History -->
+                <div class="step" data-step="3">
+                    <h2 class="step-title">Medical History</h2>
+                    <p class="step-description">These conditions may require doctor's clearance before treatment.</p>
+                    
+                    <div class="question-group">
+                        <div class="question">Please check any that apply to you:</div>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="medical_history" value="keloids">
+                                <span>History of keloids or hypertrophic scarring</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="medical_history" value="chemo_past_year">
+                                <span>Chemotherapy in the past year</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="medical_history" value="viral_infections">
+                                <span>Any viral infections, diseases or medical concerns</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="warning-text">
+                        <strong>Note:</strong> If any of the above apply to you, you will need to get doctor's clearance before your appointment.
+                    </div>
+                </div>
+
+                <!-- Step 4: Recent Treatments -->
+                <div class="step" data-step="4">
+                    <h2 class="step-title">Recent Beauty Treatments</h2>
+                    <p class="step-description">Recent treatments can affect the outcome of your eyebrow enhancement.</p>
+                    
+                    <div class="question-group">
+                        <div class="question">In the past month, have you had:</div>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="recent_treatments" value="botox_fillers">
+                                <span>Botox or fillers</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="recent_treatments" value="chemical_peels">
+                                <span>Strong chemical peels</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="recent_treatments" value="retinol">
+                                <span>Used facial products containing retinol</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="recent_treatments" value="waxing">
+                                <span>Waxed your eyebrows</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <div class="question">Do you currently have any irritation, bumps, or sunburn on your brow area?</div>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="brow_irritation" value="yes">
+                                <span>Yes</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="brow_irritation" value="no">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Skin Type -->
+                <div class="step" data-step="5">
+                    <h2 class="step-title">Skin Type Assessment</h2>
+                    <p class="step-description">Your skin type helps us determine the best technique for you.</p>
+                    
+                    <div class="question-group">
+                        <div class="question">How would you describe your skin type?</div>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="skin_type" value="dry">
+                                <span>Dry skin</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skin_type" value="normal">
+                                <span>Normal skin</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skin_type" value="oily">
+                                <span>Oily skin</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="skin_type" value="combination">
+                                <span>Combination skin</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <div class="question">Do you have large pores or textured skin in your brow area?</div>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="pore_texture" value="yes">
+                                <span>Yes</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="pore_texture" value="no">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="info-text">
+                        <strong>Good to know:</strong> Microblading works best on dry to normal skin, while shaded brow techniques work well on all skin types.
+                    </div>
+                </div>
+
+                <!-- Step 6: Previous Work -->
+                <div class="step" data-step="6">
+                    <h2 class="step-title">Previous Permanent Makeup</h2>
+                    <p class="step-description">Information about any previous eyebrow work is important for planning your treatment.</p>
+                    
+                    <div class="question-group">
+                        <div class="question">Have you had any previous permanent makeup on your eyebrows?</div>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="previous_work" value="yes">
+                                <span>Yes, I have had previous permanent makeup</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="previous_work" value="no">
+                                <span>No, this would be my first time</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="warning-text" id="previousWorkNote" style="display: none;">
+                        <strong>Important:</strong> Please email a clear photo of your current eyebrows to <strong>info@bellabrowmicroblading.com</strong> before your consultation.
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div class="step" data-step="7">
+                    <h2 class="step-title">Assessment Results</h2>
+                    <div id="results" class="results">
+                        <!-- Results will be populated by JavaScript -->
+                    </div>
+                    
+                    <div class="contact-info">
+                        <h3>Ready to Book Your Consultation?</h3>
+                        <p>Contact us to schedule your appointment:</p>
+                        <p><strong>Email:</strong> info@bellabrowmicroblading.com</p>
+                        <p><strong>Phone:</strong> [Your Phone Number]</p>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="changeStep(-1)" style="display: none;">Previous</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="changeStep(1)">Next</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `Step ${currentStep} of ${totalSteps}`;
+        }
+
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelector(`[data-step="${step}"]`).classList.add('active');
+            
+            document.getElementById('prevBtn').style.display = step > 1 ? 'block' : 'none';
+            
+            if (step === totalSteps + 1) {
+                document.getElementById('nextBtn').style.display = 'none';
+                calculateResults();
+            } else {
+                document.getElementById('nextBtn').textContent = step === totalSteps ? 'See Results' : 'Next';
+            }
+        }
+
+        function changeStep(direction) {
+            if (direction === 1 && currentStep <= totalSteps) {
+                currentStep++;
+                if (currentStep > totalSteps) {
+                    currentStep = totalSteps + 1;
+                }
+            } else if (direction === -1 && currentStep > 1) {
+                currentStep--;
+            }
+            
+            showStep(currentStep);
+            updateProgress();
+        }
+
+        function calculateResults() {
+            const formData = new FormData(document.getElementById('candidacyForm'));
+            const results = document.getElementById('results');
+            
+            // Check for absolute contraindications
+            const basicHealth = formData.getAll('basic_health');
+            const medicalTreatments = formData.getAll('medical_treatments');
+            const diabetes = formData.get('diabetes');
+            const browIrritation = formData.get('brow_irritation');
+            
+            const absoluteContraindications = [
+                ...basicHealth,
+                ...medicalTreatments.filter(t => t === 'chemotherapy' || t === 'accutane'),
+                ...(diabetes === 'yes' ? ['diabetes'] : []),
+                ...(browIrritation === 'yes' ? ['irritation'] : [])
+            ];
+            
+            // Check for conditions requiring doctor's clearance
+            const medicalHistory = formData.getAll('medical_history');
+            
+            // Check for recent treatments
+            const recentTreatments = formData.getAll('recent_treatments');
+            
+            // Check skin type
+            const skinType = formData.get('skin_type');
+            const poreTexture = formData.get('pore_texture');
+            
+            let resultHTML = '';
+            
+            if (absoluteContraindications.length > 0) {
+                resultHTML = `
+                    <div class="result-not-suitable">
+                        <h3>Not Currently Suitable</h3>
+                        <p>Based on your responses, eyebrow enhancement services are not recommended at this time due to safety concerns.</p>
+                        <p><strong>Reasons:</strong></p>
+                        <ul style="text-align: left; margin: 10px 0;">
+                            ${absoluteContraindications.map(condition => {
+                                const conditionMap = {
+                                    'under_18': 'Under 18 years old',
+                                    'pregnant': 'Currently pregnant',
+                                    'breastfeeding': 'Currently breastfeeding',
+                                    'poor_health': 'General poor health or slow healing',
+                                    'chemotherapy': 'Currently undergoing chemotherapy',
+                                    'accutane': 'Currently using Accutane',
+                                    'blood_thinners': 'Taking blood thinning medications',
+                                    'diabetes': 'Uncontrolled diabetes',
+                                    'irritation': 'Current brow area irritation'
+                                };
+                                return `<li>${conditionMap[condition] || condition}</li>`;
+                            }).join('')}
+                        </ul>
+                        <p>Please wait until these conditions no longer apply before considering treatment.</p>
+                    </div>
+                `;
+            } else if (medicalHistory.length > 0) {
+                resultHTML = `
+                    <div class="result-caution">
+                        <h3>Doctor's Clearance Required</h3>
+                        <p>You may be a candidate for eyebrow enhancement, but you'll need to get clearance from your doctor first.</p>
+                        <p><strong>Conditions requiring clearance:</strong></p>
+                        <ul style="text-align: left; margin: 10px 0;">
+                            ${medicalHistory.map(condition => {
+                                const conditionMap = {
+                                    'keloids': 'History of keloids or hypertrophic scarring',
+                                    'chemo_past_year': 'Chemotherapy in the past year',
+                                    'viral_infections': 'Viral infections, diseases or medical concerns'
+                                };
+                                return `<li>${conditionMap[condition] || condition}</li>`;
+                            }).join('')}
+                        </ul>
+                        <p>Once you have doctor's approval, we'd be happy to schedule your consultation!</p>
+                    </div>
+                `;
+            } else {
+                let warnings = [];
+                
+                if (recentTreatments.length > 0) {
+                    warnings.push("You'll need to wait for recent treatments to settle before your appointment.");
+                }
+                
+                let techniqueRecommendation = '';
+                if (skinType === 'oily' || poreTexture === 'yes') {
+                    techniqueRecommendation = `
+                        <div class="info-text">
+                            <strong>Technique Recommendation:</strong> Based on your skin type, shaded brow techniques (Combo or Ombré) may be more suitable than microblading for better pigment retention and crisp results.
+                        </div>
+                    `;
+                } else if (skinType === 'dry' || skinType === 'normal') {
+                    techniqueRecommendation = `
+                        <div class="info-text">
+                            <strong>Technique Recommendation:</strong> Your skin type is ideal for microblading! You're also a great candidate for shaded brow techniques if you prefer that look.
+                        </div>
+                    `;
+                }
+                
+                resultHTML = `
+                    <div class="result-good">
+                        <h3>Great Candidate!</h3>
+                        <p>Based on your responses, you appear to be a good candidate for eyebrow enhancement services.</p>
+                        ${warnings.length > 0 ? `<p><strong>Please note:</strong> ${warnings.join(' ')}</p>` : ''}
+                    </div>
+                    ${techniqueRecommendation}
+                    <p><strong>Next Steps:</strong></p>
+                    <ol style="text-align: left; margin: 20px 0;">
+                        <li>Schedule your consultation</li>
+                        <li>Avoid the restricted activities before your appointment</li>
+                        <li>Come prepared with questions about the process</li>
+                        <li>Bring reference photos of your desired brow look</li>
+                    </ol>
+                `;
+            }
+            
+            resultHTML += `
+                <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; font-size: 0.9rem; color: #666;">
+                    <em>*While every effort is made to determine if you are a good candidate for microblading and permanent brows, results vary and no guarantee can be made about how your skin will respond to the treatment.</em>
+                </div>
+            `;
+            
+            results.innerHTML = resultHTML;
+        }
+
+        // Add event listeners for interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Checkbox styling
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const item = this.closest('.checkbox-item');
+                    if (this.checked) {
+                        item.classList.add('checked');
+                    } else {
+                        item.classList.remove('checked');
+                    }
+                });
+            });
+
+            // Radio button styling
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Remove selected class from all items in the same group
+                    document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => {
+                        r.closest('.radio-item').classList.remove('selected');
+                    });
+                    // Add selected class to current item
+                    this.closest('.radio-item').classList.add('selected');
+                    
+                    // Show/hide previous work note
+                    if (this.name === 'previous_work' && this.value === 'yes') {
+                        document.getElementById('previousWorkNote').style.display = 'block';
+                    } else if (this.name === 'previous_work' && this.value === 'no') {
+                        document.getElementById('previousWorkNote').style.display = 'none';
+                    }
+                });
+            });
+
+            updateProgress();
+        });
+    </script>
+</body>
+</html>

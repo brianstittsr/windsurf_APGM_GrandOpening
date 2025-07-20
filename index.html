@@ -277,6 +277,46 @@
             text-transform: uppercase;
             border: 2.5px solid #fff;
         }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #8B4A52 0%, #E04A9B 100%);
+            color: #fff;
+            padding: 18px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin: 10px;
+            border: none;
+            box-shadow: 0 8px 25px rgba(173, 98, 105, 0.4);
+        }
+        .cta-button:hover {
+            background: linear-gradient(135deg, #8B4A52 0%, #E04A9B 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(173, 98, 105, 0.4);
+        }
+        .cta-button-secondary {
+            display: inline-block;
+            background: transparent;
+            color: #AD6269;
+            padding: 18px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin: 10px;
+            border: 2px solid #AD6269;
+        }
+        .cta-button-secondary:hover {
+            background: #AD6269;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(173, 98, 105, 0.3);
+        }
         @media (max-width: 540px) {
             .squeeze-container {
                 padding: 1.1rem 0.4rem 0.7rem 0.4rem;
@@ -322,7 +362,8 @@
             <span style="font-size:2rem;color:#fff;font-weight:900;letter-spacing:1px;text-shadow:0 2px 8px #a81c6c60;">$250</span> for all PMU Brow Services<br>
             <span style="font-size:1.18rem;">(Microblading, Ombré, or Combo Brows)</span>
         </div>
-        <a href="tel:9194410932" class="cta">Book Now – Call 919-441-0932</a>
+        <a href="tel:9194410932" class="cta-button">CLAIM YOUR SPOT NOW</a>
+        <a href="candidacy-form.html" class="cta-button-secondary">AM I A GOOD CANDIDATE?</a>
         <div class="details">
             <span style="color:#f75eb5;font-weight:700;">Hurry!</span> Secure your spot with a <strong>$50 deposit</strong>.<br>
             Consent to the use of before/after photos for promotional purposes is required.
