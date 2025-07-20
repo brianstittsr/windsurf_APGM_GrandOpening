@@ -7,6 +7,166 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        .flash-background {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
+        }
+        .camera-flash {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.3) 30%, transparent 70%);
+            opacity: 0;
+            animation: flash-effect 4s ease-out infinite;
+        }
+        .flash-1 {
+            width: 300px;
+            height: 300px;
+            top: 15%;
+            left: 20%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(173, 98, 105, 0.2) 40%, transparent 70%);
+            animation-delay: 0s;
+        }
+        .flash-2 {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 25%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(247, 94, 181, 0.15) 35%, transparent 65%);
+            animation-delay: 1.5s;
+        }
+        .flash-3 {
+            width: 250px;
+            height: 250px;
+            bottom: 20%;
+            left: 15%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(0, 0, 0, 0.1) 45%, transparent 75%);
+            animation-delay: 3s;
+        }
+        .flash-4 {
+            width: 180px;
+            height: 180px;
+            top: 30%;
+            right: 15%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(173, 98, 105, 0.18) 38%, transparent 68%);
+            animation-delay: 2.2s;
+        }
+        .flash-5 {
+            width: 220px;
+            height: 220px;
+            bottom: 40%;
+            right: 40%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.75) 0%, rgba(247, 94, 181, 0.12) 42%, transparent 72%);
+            animation-delay: 0.8s;
+        }
+        @keyframes flash-effect {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            5% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            15% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            25% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+        }
+        .lens-flare {
+            position: absolute;
+            opacity: 0;
+            animation: flare-effect 6s ease-in-out infinite;
+        }
+        .flare-1 {
+            width: 80px;
+            height: 80px;
+            top: 25%;
+            left: 35%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(173, 98, 105, 0.3) 50%, transparent 100%);
+            border-radius: 50%;
+            animation-delay: 0.5s;
+        }
+        .flare-2 {
+            width: 120px;
+            height: 15px;
+            top: 45%;
+            right: 30%;
+            background: linear-gradient(90deg, transparent 0%, rgba(247, 94, 181, 0.4) 20%, rgba(255, 255, 255, 0.7) 50%, rgba(247, 94, 181, 0.4) 80%, transparent 100%);
+            border-radius: 10px;
+            animation-delay: 1.8s;
+        }
+        .flare-3 {
+            width: 60px;
+            height: 60px;
+            bottom: 35%;
+            left: 25%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+            border-radius: 50%;
+            animation-delay: 3.2s;
+        }
+        .flare-4 {
+            width: 100px;
+            height: 8px;
+            top: 70%;
+            right: 20%;
+            background: linear-gradient(45deg, transparent 0%, rgba(173, 98, 105, 0.5) 30%, rgba(255, 255, 255, 0.8) 50%, rgba(173, 98, 105, 0.5) 70%, transparent 100%);
+            border-radius: 5px;
+            transform: rotate(25deg);
+            animation-delay: 2.5s;
+        }
+        .flare-5 {
+            width: 40px;
+            height: 40px;
+            top: 15%;
+            right: 45%;
+            background: radial-gradient(circle, rgba(247, 94, 181, 0.6) 0%, rgba(255, 255, 255, 0.3) 40%, transparent 80%);
+            border-radius: 50%;
+            animation-delay: 4.1s;
+        }
+        .flare-6 {
+            width: 90px;
+            height: 12px;
+            bottom: 25%;
+            right: 35%;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.6) 25%, rgba(173, 98, 105, 0.4) 50%, rgba(255, 255, 255, 0.6) 75%, transparent 100%);
+            border-radius: 8px;
+            transform: rotate(-15deg);
+            animation-delay: 0.8s;
+        }
+        @keyframes flare-effect {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(var(--rotation, 0deg));
+            }
+            8% {
+                opacity: 0.8;
+                transform: scale(1.1) rotate(var(--rotation, 0deg));
+            }
+            20% {
+                opacity: 0.6;
+                transform: scale(1) rotate(var(--rotation, 0deg));
+            }
+            35% {
+                opacity: 0;
+                transform: scale(0.8) rotate(var(--rotation, 0deg));
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5) rotate(var(--rotation, 0deg));
+            }
+        }
         body {
             margin: 0;
             padding: 0;
@@ -139,6 +299,19 @@
     </style>
 </head>
 <body>
+    <div class="flash-background" aria-hidden="true">
+        <div class="camera-flash flash-1"></div>
+        <div class="camera-flash flash-2"></div>
+        <div class="camera-flash flash-3"></div>
+        <div class="camera-flash flash-4"></div>
+        <div class="camera-flash flash-5"></div>
+        <div class="lens-flare flare-1"></div>
+        <div class="lens-flare flare-2"></div>
+        <div class="lens-flare flare-3"></div>
+        <div class="lens-flare flare-4"></div>
+        <div class="lens-flare flare-5"></div>
+        <div class="lens-flare flare-6"></div>
+    </div>
     <div class="squeeze-container">
         <div class="urgency-badge">Act Fast – Only 50 Spots!</div>
         <img src="logo.png" alt="A Pretty Girl Matter Logo" class="main-logo">
@@ -158,5 +331,9 @@
             Victoria Escobar, Owner/Manager
         </div>
     </div>
+<script>
+// Camera flash animations are handled by CSS
+// No JavaScript needed for the flash effects
+</script>
 </body>
 </html>
