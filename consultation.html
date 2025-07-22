@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30-Minute Online Consultation - A Pretty Girl Matter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%); min-height: 100vh; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 40px; padding: 30px 0; }
+        .logo { width: 120px; height: auto; margin-bottom: 20px; }
+        .header h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; color: #AD6269; margin-bottom: 10px; }
+        .header .subtitle { font-size: 1.3rem; color: #f75eb5; font-weight: 600; margin-bottom: 15px; }
+        .header p { font-size: 1.1rem; color: #666; max-width: 700px; margin: 0 auto; line-height: 1.6; }
+        .progress-container { margin-bottom: 40px; }
+        .progress-bar { width: 100%; height: 10px; background: #e0e0e0; border-radius: 5px; overflow: hidden; margin-bottom: 15px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #AD6269 0%, #f75eb5 100%); width: 7.14%; transition: width 0.4s ease; border-radius: 5px; }
+        .progress-text { text-align: center; font-weight: 600; color: #AD6269; font-size: 1rem; }
+        .form-card { background: white; border-radius: 25px; padding: 50px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); margin-bottom: 20px; border: 1px solid #f0f0f0; }
+        .step { display: none; animation: fadeIn 0.5s ease-in; }
+        .step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .step-title { font-family: 'Playfair Display', serif; font-size: 2rem; color: #AD6269; margin-bottom: 15px; text-align: center; }
+        .step-subtitle { color: #f75eb5; font-weight: 600; font-size: 1.1rem; text-align: center; margin-bottom: 30px; }
+        .question-group { margin-bottom: 35px; }
+        .question { font-weight: 600; margin-bottom: 20px; color: #333; font-size: 1.2rem; text-align: center; }
+        .checkbox-grid, .radio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 20px; }
+        .checkbox-item, .radio-item { display: flex; align-items: center; padding: 18px 20px; background: #f9f9f9; border-radius: 15px; border: 2px solid transparent; transition: all 0.3s ease; cursor: pointer; min-height: 60px; }
+        .checkbox-item:hover, .radio-item:hover { background: #f0f0f0; transform: translateY(-2px); }
+        .checkbox-item.checked, .radio-item.selected { background: linear-gradient(135deg, #fff5f6 0%, #fef7f8 100%); border-color: #AD6269; box-shadow: 0 5px 15px rgba(173, 98, 105, 0.2); }
+        .checkbox-item input, .radio-item input { margin-right: 15px; width: 20px; height: 20px; accent-color: #AD6269; }
+        .visual-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-top: 25px; }
+        .visual-option { text-align: center; padding: 20px 15px; background: #f9f9f9; border-radius: 15px; border: 2px solid transparent; transition: all 0.3s ease; cursor: pointer; }
+        .visual-option:hover { background: #f0f0f0; transform: translateY(-3px); }
+        .visual-option.selected { background: linear-gradient(135deg, #fff5f6 0%, #fef7f8 100%); border-color: #AD6269; box-shadow: 0 5px 15px rgba(173, 98, 105, 0.2); }
+        .visual-option .icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+        .visual-option input { display: none; }
+        .visual-option label { font-weight: 600; color: #333; cursor: pointer; font-size: 0.95rem; }
+        .color-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-top: 25px; }
+        .color-option { text-align: center; padding: 15px 10px; background: #f9f9f9; border-radius: 15px; border: 2px solid transparent; transition: all 0.3s ease; cursor: pointer; }
+        .color-option:hover { transform: translateY(-2px); }
+        .color-option.selected { background: linear-gradient(135deg, #fff5f6 0%, #fef7f8 100%); border-color: #AD6269; box-shadow: 0 5px 15px rgba(173, 98, 105, 0.2); }
+        .color-swatch { width: 40px; height: 40px; border-radius: 50%; margin: 0 auto 10px; border: 2px solid #ddd; }
+        .color-option input { display: none; }
+        .color-option label { font-weight: 600; color: #333; cursor: pointer; font-size: 0.9rem; }
+        .textarea-group { margin-top: 20px; }
+        .textarea-group textarea { width: 100%; min-height: 120px; padding: 20px; border: 2px solid #e0e0e0; border-radius: 15px; font-family: 'Montserrat', sans-serif; font-size: 1rem; resize: vertical; transition: border-color 0.3s ease; }
+        .textarea-group textarea:focus { outline: none; border-color: #AD6269; }
+        .file-upload { margin-top: 25px; text-align: center; }
+        .upload-area { border: 2px dashed #AD6269; border-radius: 15px; padding: 40px 20px; background: #fff5f6; transition: all 0.3s ease; cursor: pointer; }
+        .upload-area:hover { background: #fef0f1; border-color: #8B4A52; }
+        .upload-icon { font-size: 3rem; color: #AD6269; margin-bottom: 15px; }
+        .upload-text { color: #AD6269; font-weight: 600; margin-bottom: 5px; }
+        .upload-subtext { color: #666; font-size: 0.9rem; }
+        .file-input { display: none; }
+        .uploaded-file { margin-top: 15px; padding: 15px; background: #e8f5e8; border: 1px solid #4caf50; border-radius: 10px; color: #2e7d32; font-weight: 600; }
+        .contact-form { background: #f8f9fa; padding: 30px; border-radius: 20px; margin-top: 20px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #333; }
+        .form-group input { width: 100%; padding: 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1rem; transition: border-color 0.3s ease; }
+        .form-group input:focus { outline: none; border-color: #AD6269; }
+        .checkbox-agreement { display: flex; align-items: flex-start; margin: 25px 0; }
+        .checkbox-agreement input { margin-right: 12px; margin-top: 3px; width: 18px; height: 18px; accent-color: #AD6269; }
+        .navigation { display: flex; justify-content: space-between; align-items: center; margin-top: 50px; }
+        .btn { padding: 18px 35px; border: none; border-radius: 30px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn-primary { background: linear-gradient(135deg, #AD6269 0%, #f75eb5 100%); color: white; box-shadow: 0 5px 20px rgba(173, 98, 105, 0.3); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(173, 98, 105, 0.4); }
+        .btn-secondary { background: #f8f9fa; color: #666; border: 2px solid #e9ecef; }
+        .btn-secondary:hover { background: #e9ecef; transform: translateY(-2px); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+        .completion-message { text-align: center; padding: 40px 20px; }
+        .completion-icon { font-size: 4rem; color: #28a745; margin-bottom: 20px; }
+        .completion-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #AD6269; margin-bottom: 15px; }
+        .completion-text { color: #666; font-size: 1.1rem; line-height: 1.6; max-width: 600px; margin: 0 auto; }
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .form-card { padding: 30px 25px; }
+            .header h1 { font-size: 2.2rem; }
+            .visual-options { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+            .form-row { grid-template-columns: 1fr; }
+            .navigation { flex-direction: column; gap: 15px; }
+            .btn { width: 100%; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="logo.png" alt="A Pretty Girl Matter" class="logo">
+            <h1>Online Consultation</h1>
+            <div class="subtitle">30-Minute Personalized Assessment</div>
+            <p>Get personalized eyebrow recommendations from our experts. We'll analyze your preferences, skin type, and goals to create the perfect brow plan just for you.</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Step 1 of 14</div>
+        </div>
+
+        <div class="form-card">
+            <form id="consultationForm">
+                <!-- Step 1: Motivation -->
+                <div class="step active" data-step="1">
+                    <h2 class="step-title">Let's Start!</h2>
+                    <div class="question">What is your main motivation for getting your brows done?</div>
+                    <div class="step-subtitle">Select all that apply</div>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="motivation" value="put_together">
+                            <span>I want to feel more put together daily</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="motivation" value="stop_makeup">
+                            <span>I want to stop filling them in with makeup</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="motivation" value="improve_specific">
+                            <span>I have something specific I want to improve</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="motivation" value="no_reason">
+                            <span>No real reason, I just want them done!</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 2: Current Issues -->
+                <div class="step" data-step="2">
+                    <h2 class="step-title">Current Concerns</h2>
+                    <div class="question">Do your brows have any qualities you would like to correct?</div>
+                    <div class="step-subtitle">Choose any that apply</div>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="issues" value="over_tweezed">
+                            <span>Over-tweezed</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="issues" value="patchy">
+                            <span>Patchy</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="issues" value="uneven">
+                            <span>Uneven</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="issues" value="too_thin">
+                            <span>Too Thin</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="issues" value="too_far_apart">
+                            <span>Too far apart</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="issues" value="sparse_tails">
+                            <span>Sparse Tails</span>
+                        </label>
+                    </div>
+                    <div class="textarea-group">
+                        <textarea name="other_issues" placeholder="Other concerns not listed above..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Step 3: Previous Experience -->
+                <div class="step" data-step="3">
+                    <h2 class="step-title">Experience Level</h2>
+                    <div class="question">Have you ever had your brows done before?</div>
+                    <div class="radio-grid">
+                        <label class="radio-item">
+                            <input type="radio" name="previous_experience" value="yes">
+                            <span>Yes</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="previous_experience" value="no">
+                            <span>No, never</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 4: Current Fullness -->
+                <div class="step" data-step="4">
+                    <h2 class="step-title">Current State</h2>
+                    <div class="question">How full are your brows currently?</div>
+                    <div class="visual-options">
+                        <div class="visual-option">
+                            <span class="icon">🚫</span>
+                            <input type="radio" name="current_fullness" value="no_hair" id="no_hair">
+                            <label for="no_hair">No Hair</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">📉</span>
+                            <input type="radio" name="current_fullness" value="sparse" id="sparse">
+                            <label for="sparse">Sparse</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">📊</span>
+                            <input type="radio" name="current_fullness" value="medium" id="medium">
+                            <label for="medium">Medium</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">📈</span>
+                            <input type="radio" name="current_fullness" value="very_full" id="very_full">
+                            <label for="very_full">Very Full</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Dream Shape -->
+                <div class="step" data-step="5">
+                    <h2 class="step-title">Dream Shape</h2>
+                    <div class="question">I want the shape of my brows to be:</div>
+                    <div class="visual-options">
+                        <div class="visual-option">
+                            <span class="icon">🌿</span>
+                            <input type="radio" name="dream_shape" value="natural_arch" id="natural_arch">
+                            <label for="natural_arch">Natural Arch</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">⚡</span>
+                            <input type="radio" name="dream_shape" value="strong_arch" id="strong_arch">
+                            <label for="strong_arch">Strong Arch</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">🌙</span>
+                            <input type="radio" name="dream_shape" value="rounded_arch" id="rounded_arch">
+                            <label for="rounded_arch">Rounded Arch</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">➖</span>
+                            <input type="radio" name="dream_shape" value="straight" id="straight">
+                            <label for="straight">Straight</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">❓</span>
+                            <input type="radio" name="dream_shape" value="unsure_shape" id="unsure_shape">
+                            <label for="unsure_shape">Unsure</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 6: Front Texture -->
+                <div class="step" data-step="6">
+                    <h2 class="step-title">Front Texture</h2>
+                    <div class="question">I want the fronts of my brows to be:</div>
+                    <div class="visual-options">
+                        <div class="visual-option">
+                            <span class="icon">🌸</span>
+                            <input type="radio" name="front_texture" value="extra_fluffy" id="extra_fluffy">
+                            <label for="extra_fluffy">Extra Fluffy</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">📝</span>
+                            <input type="radio" name="front_texture" value="standard_texture" id="standard_texture">
+                            <label for="standard_texture">Standard Texture</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">🌅</span>
+                            <input type="radio" name="front_texture" value="soft_gradient" id="soft_gradient">
+                            <label for="soft_gradient">Soft Gradient</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">🌄</span>
+                            <input type="radio" name="front_texture" value="strong_gradient" id="strong_gradient">
+                            <label for="strong_gradient">Strong Gradient</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">⬛</span>
+                            <input type="radio" name="front_texture" value="solid" id="solid">
+                            <label for="solid">Solid</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">❓</span>
+                            <input type="radio" name="front_texture" value="unsure_texture" id="unsure_texture">
+                            <label for="unsure_texture">Unsure</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 7: Edge Definition -->
+                <div class="step" data-step="7">
+                    <h2 class="step-title">Edge Definition</h2>
+                    <div class="question">I want the edges of my brows to be:</div>
+                    <div class="visual-options">
+                        <div class="visual-option">
+                            <span class="icon">🔲</span>
+                            <input type="radio" name="edge_definition" value="very_defined" id="very_defined">
+                            <label for="very_defined">Very Defined</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">📐</span>
+                            <input type="radio" name="edge_definition" value="medium_defined" id="medium_defined">
+                            <label for="medium_defined">Medium Defined</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">☁️</span>
+                            <input type="radio" name="edge_definition" value="soft_defined" id="soft_defined">
+                            <label for="soft_defined">Soft Defined</label>
+                        </div>
+                        <div class="visual-option">
+                            <span class="icon">❓</span>
+                            <input type="radio" name="edge_definition" value="unsure_edge" id="unsure_edge">
+                            <label for="unsure_edge">Unsure</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 8: Color Selection -->
+                <div class="step" data-step="8">
+                    <h2 class="step-title">Color Match</h2>
+                    <div class="question">Which color best matches your natural brow hair?</div>
+                    <div class="step-subtitle">(or the color you prefer to fill in with)</div>
+                    <div class="color-options">
+                        <div class="color-option">
+                            <div class="color-swatch" style="background: #c0c0c0;"></div>
+                            <input type="radio" name="brow_color" value="gray" id="gray">
+                            <label for="gray">Gray</label>
+                        </div>
+                        <div class="color-option">
+                            <div class="color-swatch" style="background: #f5deb3;"></div>
+                            <input type="radio" name="brow_color" value="neutral_blonde" id="neutral_blonde">
+                            <label for="neutral_blonde">Neutral Blonde</label>
+                        </div>
+                        <div class="color-option">
+                            <div class="color-swatch" style="background: #daa520;"></div>
+                            <input type="radio" name="brow_color" value="warm_blonde" id="warm_blonde">
+                            <label for="warm_blonde">Warm Blonde</label>
+                        </div>
+                        <div class="color-option">
+                            <div class="color-swatch" style="background: #8b4513;"></div>
+                            <input type="radio" name="brow_color" value="medium_brown" id="medium_brown">
+                            <label for="medium_brown">Medium Brown</label>
+                        </div>
+                        <div class="color-option">
+                            <div class="color-swatch" style="background: #654321;"></div>
+                            <input type="radio" name="brow_color" value="soft_dark_brown" id="soft_dark_brown">
+                            <label for="soft_dark_brown">Soft Dark Brown</label>
+                        </div>
+                        <div class="color-option">
+                            <div class="color-swatch" style="background: #3c2414;"></div>
+                            <input type="radio" name="brow_color" value="dark_brown" id="dark_brown">
+                            <label for="dark_brown">Dark Brown</label>
+                        </div>
+                        <div class="color-option">
+                            <div class="color-swatch" style="background: #1c1c1c;"></div>
+                            <input type="radio" name="brow_color" value="black_brown" id="black_brown">
+                            <label for="black_brown">Black Brown</label>
+                        </div>
+                        <div class="color-option">
+                            <div class="color-swatch" style="background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), linear-gradient(-45deg, #f0f0f0 25%, transparent 25%); background-size: 8px 8px;"></div>
+                            <input type="radio" name="brow_color" value="unsure_color" id="unsure_color">
+                            <label for="unsure_color">Unsure</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 9: Additional Goals -->
+                <div class="step" data-step="9">
+                    <h2 class="step-title">Additional Goals</h2>
+                    <div class="question">Anything else you'd like to add about your brow goals?</div>
+                    <div class="textarea-group">
+                        <textarea name="additional_goals" placeholder="Share any specific goals, concerns, or details about your dream brows..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Step 10: Photo Upload -->
+                <div class="step" data-step="10">
+                    <h2 class="step-title">Photo Upload</h2>
+                    <div class="question">Want to include a picture of your brows?</div>
+                    <div class="step-subtitle">You'll receive a brow mockup in your consultation email. (Optional)</div>
+                    <div class="file-upload">
+                        <div class="upload-area" onclick="document.getElementById('browPhoto').click()">
+                            <div class="upload-icon">📸</div>
+                            <div class="upload-text">Drop your file here or click</div>
+                            <div class="upload-subtext">Accepts png, jpeg, pdf</div>
+                        </div>
+                        <input type="file" id="browPhoto" name="brow_photo" class="file-input" accept=".png,.jpg,.jpeg,.pdf">
+                        <div id="uploadedFile" class="uploaded-file" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Step 11: Pregnancy/Breastfeeding -->
+                <div class="step" data-step="11">
+                    <h2 class="step-title">Health Status</h2>
+                    <div class="question">Are you pregnant or breastfeeding?</div>
+                    <div class="radio-grid">
+                        <label class="radio-item">
+                            <input type="radio" name="pregnancy_status" value="yes">
+                            <span>Yes</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="pregnancy_status" value="no">
+                            <span>No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 12: Medical Conditions -->
+                <div class="step" data-step="12">
+                    <h2 class="step-title">Medical History</h2>
+                    <div class="question">Do any of the following apply to you?</div>
+                    <div class="radio-grid">
+                        <label class="radio-item">
+                            <input type="radio" name="medical_conditions" value="accutane">
+                            <span>I've had accutane in the past year</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="medical_conditions" value="botox">
+                            <span>I've had botox in the past month</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="medical_conditions" value="chemotherapy">
+                            <span>I've had chemotherapy in the past year</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="medical_conditions" value="none">
+                            <span>None apply</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 13: Concerns -->
+                <div class="step" data-step="13">
+                    <h2 class="step-title">Final Concerns</h2>
+                    <div class="question">Any other concerns?</div>
+                    <div class="radio-grid">
+                        <label class="radio-item">
+                            <input type="radio" name="concerns" value="appearance">
+                            <span>I'm worried about how it's going to look</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="concerns" value="pain">
+                            <span>I'm worried about how it's going to feel</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="concerns" value="cost">
+                            <span>I'm worried about cost</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="concerns" value="aftercare">
+                            <span>I'm worried about aftercare</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="concerns" value="no_concerns">
+                            <span>No concerns</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 14: Contact Information -->
+                <div class="step" data-step="14">
+                    <h2 class="step-title">Almost Done!</h2>
+                    <div class="question">One last step to complete your online consultation</div>
+                    <div class="step-subtitle">We'll review your information and send you your personalized recommendations straight to your email.<br>(Please allow up to 48 hours as all recommendations are completed by a real person!)</div>
+                    
+                    <div class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="first_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="last_name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="checkbox-agreement">
+                            <input type="checkbox" id="emailAgreement" name="email_agreement" required>
+                            <label for="emailAgreement">I agree to receive emails from A Pretty Girl Matter.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completion Step -->
+                <div class="step" data-step="15">
+                    <div class="completion-message">
+                        <div class="completion-icon">✨</div>
+                        <h2 class="completion-title">Consultation Submitted!</h2>
+                        <div class="completion-text">
+                            Thank you for completing your online consultation! Our expert team will review your responses and create personalized eyebrow recommendations just for you.
+                            <br><br>
+                            You'll receive your detailed consultation results via email within 48 hours, including technique recommendations, color matching, and your custom brow mockup if you uploaded a photo.
+                            <br><br>
+                            We can't wait to help you achieve your dream brows!
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="changeStep(-1)" style="display: none;">Previous</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="changeStep(1)">Next</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 14;
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `Step ${currentStep} of ${totalSteps}`;
+        }
+
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            const stepElement = document.querySelector(`[data-step="${step}"]`);
+            if (stepElement) {
+                stepElement.classList.add('active');
+            }
+            
+            document.getElementById('prevBtn').style.display = step > 1 ? 'block' : 'none';
+            
+            if (step === totalSteps + 1) {
+                document.getElementById('nextBtn').style.display = 'none';
+            } else {
+                document.getElementById('nextBtn').textContent = step === totalSteps ? 'Submit Consultation' : 'Next';
+            }
+        }
+
+        function changeStep(direction) {
+            if (direction === 1) {
+                if (currentStep === totalSteps) {
+                    // Handle form submission
+                    if (validateFinalStep()) {
+                        submitForm();
+                        currentStep = totalSteps + 1;
+                    } else {
+                        return;
+                    }
+                } else if (currentStep < totalSteps) {
+                    currentStep++;
+                }
+            } else if (direction === -1 && currentStep > 1) {
+                currentStep--;
+            }
+            
+            showStep(currentStep);
+            updateProgress();
+        }
+
+        function validateFinalStep() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const emailAgreement = document.getElementById('emailAgreement').checked;
+
+            if (!firstName || !lastName || !email || !emailAgreement) {
+                alert('Please fill in all required fields and agree to receive emails.');
+                return false;
+            }
+
+            if (!isValidEmail(email)) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function submitForm() {
+            // Collect all form data
+            const formData = new FormData(document.getElementById('consultationForm'));
+            
+            // In a real implementation, you would send this data to your server
+            console.log('Form submitted with data:', Object.fromEntries(formData));
+            
+            // For now, we'll just show the completion message
+            // You can integrate with your email service or backend here
+        }
+
+        // Add event listeners for interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Checkbox styling
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const item = this.closest('.checkbox-item');
+                    if (this.checked) {
+                        item.classList.add('checked');
+                    } else {
+                        item.classList.remove('checked');
+                    }
+                });
+            });
+
+            // Radio button styling
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => {
+                        const item = r.closest('.radio-item') || r.closest('.visual-option') || r.closest('.color-option');
+                        if (item) item.classList.remove('selected');
+                    });
+                    const item = this.closest('.radio-item') || this.closest('.visual-option') || this.closest('.color-option');
+                    if (item) item.classList.add('selected');
+                });
+            });
+
+            updateProgress();
+
+            // File upload functionality
+            const fileInput = document.getElementById('browPhoto');
+            const uploadArea = document.querySelector('.upload-area');
+            const uploadedFileDiv = document.getElementById('uploadedFile');
+
+            fileInput.addEventListener('change', function(e) {
+                handleFileUpload(e.target.files[0]);
+            });
+
+            // Drag and drop functionality
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFileUpload(files[0]);
+                }
+            });
+
+            function handleFileUpload(file) {
+                if (file) {
+                    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'];
+                    const maxSize = 10 * 1024 * 1024; // 10MB
+
+                    if (!allowedTypes.includes(file.type)) {
+                        alert('Please upload a PNG, JPEG, or PDF file.');
+                        return;
+                    }
+
+                    if (file.size > maxSize) {
+                        alert('File size must be less than 10MB.');
+                        return;
+                    }
+
+                    uploadedFileDiv.textContent = `✅ Uploaded: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                    uploadedFileDiv.style.display = 'block';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
